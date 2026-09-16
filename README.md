@@ -55,6 +55,7 @@ quei valori vincono su quelli di default.
 | `DELAY` | `90` | quanto aspetta prima di salire (ms) |
 | `FONT` | `600 11px/1 Inter, system-ui, sans-serif` | vedi sotto |
 | `MIN_W` | `992` | sotto questa larghezza non parte (px) |
+| `HIDE` | `#capecur` | il cursore da spegnere mentre si legge la scritta |
 | `Z` | `2147483646` | uno sotto al cursore che c'e' gia' |
 
 ## Il font
@@ -72,6 +73,18 @@ sito non e' caricato** — carichi solo Jost — quindi quella scritta cade su
 Sotto i 992px, dove non c'e' un mouse vero (`hover: hover`), o se il sistema
 chiede meno animazioni. Le stesse condizioni del resto del sito: una scritta
 appesa al puntatore su un telefono non ha un puntatore a cui appendersi.
+
+## Il cursore-logo sparisce
+
+Finche' sei sopra a un `.cursor-view` resta **solo la parola**: il cursore
+dell'onda (`#capecur`) si spegne, e il cursore di sistema resta nascosto.
+Poi il logo rientra quando la scritta se n'e' andata, cosi' non si
+sovrappongono. Stessa cosa che faceva `ink-invert`.
+
+Si spegne il contenitore, non i suoi tre pezzi uno per uno: se quel codice
+un giorno cambia il nome di una classe interna, cosi' non resta un pezzo
+acceso addosso alla scritta. Se cambia il nome del contenitore, invece, si
+cambia `HIDE`.
 
 ## Note
 
