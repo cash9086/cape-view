@@ -18,7 +18,7 @@ La classe puo' restare vuota, senza nessuna proprieta'. Poi metti lo script
 in fondo al **Before `</body>`**:
 
 ```html
-<script defer src="https://cdn.jsdelivr.net/gh/cash9086/cape-view@SHA/cape-view.js"></script>
+<script defer src="https://cdn.jsdelivr.net/gh/cash9086/cape-view@6c8606941630244dcd1f9be99913e69d8e6da95e/cape-view.js"></script>
 ```
 
 ## Su un singolo elemento
