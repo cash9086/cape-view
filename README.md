@@ -1,6 +1,6 @@
 # cape-view
 
-La scritta **View** accanto al puntatore. Niente altro.
+La scritta **View** che insegue il puntatore da lontano.
 
 E' la scritta che compariva con `ink-invert`, staccata dal resto: niente
 pennello, niente inchiostro, niente canvas. Stessi numeri di prima — corpo,
@@ -46,8 +46,8 @@ quei valori vincono su quelli di default.
 | `LABEL` | `View` | la parola |
 | `SEL` | `.cursor-view` | a chi si attacca |
 | `DY` | `18` | quanto sta sotto al puntatore (px) |
-| `LAG` | `0.45` | quanto insegue: 1 = incollata |
-| `CAP` | `26` | e comunque non si stacca mai piu' di tanti px |
+| `LAG` | `0.06` | quanto insegue: 1 = incollata. E' l'inerzia |
+| `CAP` | `400` | e comunque non si stacca mai piu' di tanti px |
 | `TR` | `0.16` | tracking a regime (em) |
 | `TR_IN` | `0.18` | tracking in piu' all'inizio della salita (em) |
 | `IN_MS` | `460` | la salita (ms) |
@@ -55,7 +55,6 @@ quei valori vincono su quelli di default.
 | `DELAY` | `90` | quanto aspetta prima di salire (ms) |
 | `FONT` | `600 11px/1 Inter, system-ui, sans-serif` | vedi sotto |
 | `MIN_W` | `992` | sotto questa larghezza non parte (px) |
-| `HIDE` | `#capecur` | il cursore da spegnere mentre si legge la scritta |
 | `Z` | `2147483646` | uno sotto al cursore che c'e' gia' |
 
 ## Il font
@@ -74,17 +73,35 @@ Sotto i 992px, dove non c'e' un mouse vero (`hover: hover`), o se il sistema
 chiede meno animazioni. Le stesse condizioni del resto del sito: una scritta
 appesa al puntatore su un telefono non ha un puntatore a cui appendersi.
 
-## Il cursore-logo sparisce
+## L'inerzia
 
-Finche' sei sopra a un `.cursor-view` resta **solo la parola**: il cursore
-dell'onda (`#capecur`) si spegne, e il cursore di sistema resta nascosto.
-Poi il logo rientra quando la scritta se n'e' andata, cosi' non si
-sovrappongono. Stessa cosa che faceva `ink-invert`.
+E' tutta in `LAG`. A 1 la scritta e' incollata al mouse; piu' il numero e'
+piccolo piu' resta indietro e piu' ci mette ad arrivare. A `0.06` si stacca
+di un centinaio di pixel appena muovi e ci mette mezzo secondo buono a
+raggiungerti quando ti fermi.
 
-Si spegne il contenitore, non i suoi tre pezzi uno per uno: se quel codice
-un giorno cambia il nome di una classe interna, cosi' non resta un pezzo
-acceso addosso alla scritta. Se cambia il nome del contenitore, invece, si
-cambia `HIDE`.
+Il ritardo che si vede va come `(1-LAG)/LAG`: fra `0.45` e `0.06` non c'e'
+il doppio di differenza, ce n'e' tredici volte tanta. Conviene cambiarlo a
+piccoli passi, e si cambia **dalla pagina** senza ripubblicare il file:
+
+```html
+<script>window.CAPE_VIEW = { LAG: 0.09 };</script>
+```
+
+`CAP` e' il guinzaglio: quanto puo' allontanarsi al massimo, in pixel. Serve
+perche' su una sventagliata da una parte all'altra dello schermo la scritta
+non finisca a mezzo metro dall'immagine di cui sta parlando.
+
+## Il cursore-logo resta
+
+Il cursore dell'onda (`#capecur`) **non** si spegne piu': sopra un
+`.cursor-view` ci sono tutti e due, il cursore e la scritta che lo insegue.
+Il cursore di sistema invece resta nascosto.
+
+Perche' i due non si trasformino nello stesso momento a un palmo l'uno
+dall'altra, e' `cape-cursore.js` a farsi da parte: sopra un `.cursor-view`
+resta il logo e non diventa ne' anello ne' punto. Quel pezzo sta li', non
+qui.
 
 ## Note
 
